@@ -70,6 +70,7 @@ class CalendarDatePicker2Config {
     this.modePickerTextHandler,
     this.selectedRangeDayTextStyle,
     this.rangeBidirectional = false,
+    this.isAbleSelectYear = false,
   })  : calendarType = calendarType ?? CalendarDatePicker2Type.single,
         firstDate = DateUtils.dateOnly(firstDate ?? DateTime(1970)),
         lastDate =
@@ -181,6 +182,8 @@ class CalendarDatePicker2Config {
   /// Only applicable when [calendarType] is [CalendarDatePicker2Type.range].
   final bool rangeBidirectional;
 
+  final bool isAbleSelectYear;
+
   CalendarDatePicker2Config copyWith({
     CalendarDatePicker2Type? calendarType,
     DateTime? firstDate,
@@ -257,6 +260,7 @@ class CalendarDatePicker2Config {
       modePickerTextHandler:
           modePickerTextHandler ?? this.modePickerTextHandler,
       rangeBidirectional: rangeBidirectional ?? this.rangeBidirectional,
+      isAbleSelectYear: isAbleSelectYear ?? this.isAbleSelectYear,
     );
   }
 }

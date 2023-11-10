@@ -320,6 +320,7 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
     assert(debugCheckHasMaterial(context));
     assert(debugCheckHasMaterialLocalizations(context));
     assert(debugCheckHasDirectionality(context));
+
     return Stack(
       children: <Widget>[
         SizedBox(
@@ -328,20 +329,48 @@ class _CalendarDatePicker2State extends State<CalendarDatePicker2> {
           child: _buildPicker(),
         ),
         // Put the mode toggle button on top so that it won't be covered up by the _CalendarView
-        _DatePickerModeToggleButton(
-          config: widget.config,
-          mode: _mode,
-          title: widget.config.modePickerTextHandler
-                  ?.call(monthDate: _currentDisplayedMonthDate) ??
-              _localizations.formatMonthYear(_currentDisplayedMonthDate),
-          onTitlePressed: () {
-            // Toggle the day/year mode.
-            _handleModeChanged(_mode == DatePickerMode.day
-                ? DatePickerMode.year
-                : DatePickerMode.day);
-          },
-        ),
+
+        yearView(),
       ],
     );
+  }
+
+  Widget yearView() {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final Color controlColor = colorScheme.onSurface.withOpacity(0.60);
+    if (widget.config.isAbleSelectYear == false) {
+      return Container(
+          padding: widget.config.centerAlignModePicker == true
+              ? EdgeInsets.zero
+              : const EdgeInsetsDirectional.only(start: 16, end: 4),
+          height: (widget.config.controlsHeight ?? _subHeaderHeight),
+          child: Row(children: <Widget>[
+            Text(
+              widget.config.modePickerTextHandler
+                      ?.call(monthDate: _currentDisplayedMonthDate) ??
+                  _localizations.formatMonthYear(_currentDisplayedMonthDate),
+              overflow: TextOverflow.ellipsis,
+              style: widget.config.controlsTextStyle ??
+                  textTheme.titleSmall?.copyWith(
+                    color: controlColor,
+                  ),
+            ),
+          ]));
+    } else {
+      return _DatePickerModeToggleButton(
+        config: widget.config,
+        mode: _mode,
+        title: widget.config.modePickerTextHandler
+                ?.call(monthDate: _currentDisplayedMonthDate) ??
+            _localizations.formatMonthYear(_currentDisplayedMonthDate),
+        onTitlePressed: () {
+          // Toggle the day/year mode.
+          _handleModeChanged(_mode == DatePickerMode.day
+              ? DatePickerMode.year
+              : DatePickerMode.day);
+        },
+      );
+    }
   }
 }

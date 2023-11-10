@@ -84,7 +84,7 @@ class _DatePickerModeToggleButtonState
             child: Semantics(
               label: MaterialLocalizations.of(context).selectYearSemanticsLabel,
               excludeSemantics: true,
-              button: true,
+              button: false,
               child: SizedBox(
                 height: (widget.config.controlsHeight ?? _subHeaderHeight),
                 child: InkWell(
